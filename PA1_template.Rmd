@@ -1,25 +1,43 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+##=================================================
+##Title: "Reproducible Research: Peer Assessment 1"
+##Author: "Ulugbek Ruziev"
+##Date: "December 20, 2015"
+##=================================================
+#Reproducible Research: Peer Assessment 1
+##Initial settings
+```{r}
+require("dplyr") ## dplyr is used for structuring the data for analysis
+require("ggplot2") ## ggplot2 is required for several plots
+require("lattice") ## lattice plot is required for the weekday-weekend plot
+echo = TRUE  # Always make code visible
+options(scipen = 999)  # Turn off scientific notations for numbers
+```
+##Loading and preprocessing the data
+```{r}
+activity <- read.csv(unz("activity.zip","activity.csv")) ## read in the data
+activity <- tbl_df(activity) ## structure the data as a tbl class
+```
+##What is mean total number of steps taken per day?
+For this part of the assignment, you can ignore the missing values in the dataset. Make a histogram of the total number of steps taken each day
+
+First I aggregate the number of steps per day. I use the group_by function and then the summarise function from dplyr to perform the aggregation of steps by day and last the hist function to create the histogram plot
+```{r}
+activity_days <- activity %>% group_by(date) %>% summarise(total.steps = sum(steps))
+hist(activity_days$total.steps, breaks = 25, main = "Histogram of Total Steps per Day")
+```
+
+Calculate and report the mean total number of steps taken per day
+```{r}
+mean((activity_days$total.steps), na.rm = TRUE)
+```
+
+The mean number of steps taken per day is 10766
+
+Calculate and report the median total number of steps taken per day
+
+```{r}
+median((activity_days$total.steps), na.rm = TRUE)
+```
+The median number of steps taken per day is 10765
 
 
-## Loading and preprocessing the data
-
-
-
-## What is mean total number of steps taken per day?
-
-
-
-## What is the average daily activity pattern?
-
-
-
-## Imputing missing values
-
-
-
-## Are there differences in activity patterns between weekdays and weekends?
